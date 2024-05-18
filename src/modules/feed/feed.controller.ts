@@ -1,6 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { FeedService } from './feed.service';
 import { FeedupDTO, FindAllFeedups } from '../feedups/feedups.dto';
+import { User } from 'src/auth/auth.service';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { FindAllUsers } from '../user/user.dto';
+
+
+@UseGuards(AuthGuard)
 
 @Controller('home')
 export class FeedController {
@@ -8,7 +14,8 @@ export class FeedController {
 
   @Get()
   async findAll(params?: FindAllFeedups): Promise<FeedupDTO[]>{
-    return await this.feedService.findAll(params);
+    return this.feedService.findAll(params);
   }
+
 
 }

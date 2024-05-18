@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { FeedupsService } from './feedups.service';
 import { FeedupDTO } from './feedups.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { User } from 'src/auth/auth.service';
 
 @UseGuards(AuthGuard) // Autorization Guard User
 
@@ -10,23 +11,10 @@ export class FeedupsController {
   constructor(private readonly feedupsService: FeedupsService) {}
   
   @Post()
-  async createFeedup(@Body() feedup: FeedupDTO) {
-    await this.feedupsService.createFeedup(feedup);
+  @UseGuards(AuthGuard)
+  async createFeedup(@Body() feedup: FeedupDTO, @User() username: any) {
+    await this.feedupsService.createFeedup(feedup, username);
   }
 
-      /*@Get('/:id')
-      findById(@Param('id') id: string): FeedupDTO{
-          return this.feedupsService.findById(id);
-      }*/
-
-      /*@Put()
-      updateUser(@Body() feedup: FeedupDTO) {
-          this.feedupsService.updateFeedup(feedup);
-      }*/
-
-      
-      /*@Delete('/:id')
-        deleteFeedup(@Param('id') id: string) {
-            this.feedupsService.deleteFeedup(id);
-        }*/
+    
 }

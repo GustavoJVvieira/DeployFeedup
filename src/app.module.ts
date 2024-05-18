@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { DbModule } from './db/db.module';
 import { FeedModule } from './modules/feed/feed.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [ 
@@ -16,7 +17,7 @@ import { FeedModule } from './modules/feed/feed.module';
     ConfigModule.forRoot({
     isGlobal: true,
   }),
-    UserModule, FeedupsModule, MoodsModule, CommentsModule, AuthModule, DbModule, FeedModule],
+    UserModule, FeedupsModule, MoodsModule, CommentsModule, AuthModule, DbModule, FeedModule, ProfileModule],
   controllers: [AppController],
   providers: [AppService],
 })

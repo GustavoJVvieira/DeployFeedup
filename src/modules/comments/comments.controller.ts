@@ -3,6 +3,7 @@ import { CommentsService } from './comments.service';
 import { CommentsDTO } from './comments.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
+
 @UseGuards(AuthGuard) // Autorization Guard User
 @Controller('comments')
 export class CommentsController {

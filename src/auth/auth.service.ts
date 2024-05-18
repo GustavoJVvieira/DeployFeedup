@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException, createParamDecorator } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/modules/user/user.service';
 import { compareSync as bcryptCompareSync } from 'bcrypt';
@@ -21,11 +21,27 @@ export class AuthService {
         if(!foundUser || !bcryptCompareSync(password, foundUser.password)){
             throw new UnauthorizedException('Ih paizao nao vai dar pra entrar');
         }
-        const payload = {sub: foundUser.id, email: foundUser.email};    
+
+        const payload = {sub: foundUser.id, 
+          username: foundUser.username, 
+          email: foundUser.email,
+          name: foundUser.name,
+          role: foundUser.role,
+          coin: foundUser.coin };    
         const token = this.jwtService.sign(payload);
 
         return {token, expiresIn: this.jwtExpirationTimeInSeconds}
     }
+
+    async validate(payload: any) {
+        // Certifique-se de que o payload inclua o ID do usuário
+        return { id: payload.sub, 
+          username: payload.username, 
+          email: payload.email,
+          name: payload.name,
+          role: payload.role,
+          coin: payload.coin};
+      }
 
     getHello(): string{
         return "Hello World"
@@ -33,3 +49,10 @@ export class AuthService {
         
     
 }
+
+export const User = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user;
+  },
+)

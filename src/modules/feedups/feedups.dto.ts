@@ -1,3 +1,5 @@
+import { UserEntity } from "src/db/entities/users.entity";
+
 export class FeedupDTO{
 
   id ?: string;
@@ -10,7 +12,7 @@ export class FeedupDTO{
   likes: number;
   created_at ?: Date;
   updated_at ?: Date;
-
+  
 }
 
 
@@ -25,4 +27,6 @@ export class FindAllFeedups{
     likes: number;
     created_at ?: Date;
     updated_at ?: Date;
+
+  
 }

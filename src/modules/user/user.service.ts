@@ -9,6 +9,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 export class UserService {
     constructor(@InjectRepository(UserEntity) private readonly usersRepository: Repository<UserEntity> ){}
 
+    
     async createUser(newUser: UserDTO){
         const userAlreadyRegistered = await this.usersRepository.findOneBy({email: newUser.email});
 
@@ -32,7 +33,7 @@ export class UserService {
 
     async findByEmail(email: string): Promise<UserDTO | null> {
         const emailFound = await this.usersRepository.findOne({
-          where: { email },
+          where: { email : email},
         });
     
         if (!emailFound) {
@@ -41,7 +42,7 @@ export class UserService {
     
         return {
           id: emailFound.id,
-          email: emailFound.username,
+          email: emailFound.email,
           password: emailFound.password,
           name: emailFound.name,
           role: emailFound.role,
@@ -52,6 +53,7 @@ export class UserService {
         };
       }
     
+
     /*findById(id: string): UserDTO {
         const foundUser = this.usersRepository.find(this.usersRepository => this.usersRepository.id == id);
 
