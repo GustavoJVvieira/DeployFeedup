@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { CommentsService } from './comments.service';
 import { CommentsDTO } from './comments.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { User } from 'src/auth/auth.service';
 
 
 @UseGuards(AuthGuard) // Autorization Guard User
@@ -9,28 +10,21 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
   
-  @Post()
-  createComment(@Body() comments: CommentsDTO) {
-    this.commentsService.createComment(comments);
+  @Post("/:id")
+  @UseGuards(AuthGuard)
+  createComment(@Body() comments: CommentsDTO, @User() user: any, @Param("id") id: string) {
+    this.commentsService.createComment(comments, user, id);
   }
 
   @Get('/:id')
-  findById(@Param('id') id: string): CommentsDTO {
+  findById(@Param('id') id: string){
       return this.commentsService.findById(id);
   }
 
-  @Put()
-  updateUser(@Body() comments: CommentsDTO) {
-      this.commentsService.updateComment(comments);
-  }
-
-  @Get()
-  findAll() {
-     console.log(this.commentsService);
-  }
 
   @Delete("/:id")
-  deleteComment(@Param("id") id : string) {
-      this.commentsService.deleteComment(id);
+  deleteComment(@Param("id") id : string, @User() user: any) {
+      this.commentsService.deleteComment(id, user);
   }
+  
 }

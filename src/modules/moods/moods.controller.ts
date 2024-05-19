@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/comm
 import { MoodsService } from './moods.service';
 import { MoodsDTO } from './moods.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { User } from 'src/auth/auth.service';
 
 @UseGuards(AuthGuard) // Autorization Guard User
 
@@ -11,8 +12,8 @@ export class MoodsController {
   
  
   @Post()
-  createMood(@Body() mood: MoodsDTO) {
-    this.moodsService.createMoods(mood);
+  createMood(@Body() mood: MoodsDTO, @User() user: any ) {
+    this.moodsService.createMoods(mood, user);
   }
 
 

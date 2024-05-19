@@ -5,9 +5,10 @@ export class FeedupDTO{
   id ?: string;
   id_usersend: string;
   id_userreceived: string;
+  username_userreceived: string;
   value: string;
   message: string;
-  isanonimous ?: boolean;
+  isanonymous ?: boolean;
   isconstructive ?: boolean;
   likes: number;
   created_at ?: Date;
@@ -20,9 +21,10 @@ export class FindAllFeedups{
     id ?: string;
     id_usersend: string;
     id_userreceived: string;
+    username_userreceived ?: string;
     value: string;
     message: string;
-    isanonimous ?: boolean;
+    isanonymous ?: boolean;
     isconstructive ?: boolean;
     likes: number;
     created_at ?: Date;

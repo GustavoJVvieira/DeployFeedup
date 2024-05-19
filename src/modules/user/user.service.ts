@@ -23,6 +23,7 @@ export class UserService {
         dbUser.coin = newUser.coin;
         dbUser.people = newUser.people;
         dbUser.leader = newUser.leader;
+        
         dbUser.password = bcryptHashSync(newUser.password, 10);
 
         const {email, name} = await this.usersRepository.save(dbUser);

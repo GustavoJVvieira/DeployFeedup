@@ -14,6 +14,13 @@ export class FeedbackEntity {
   @JoinColumn({ name: 'id_usersend' })
   userSend ?: UserEntity;
 
+  @Column({type: "varchar"})
+  username_userreceived ?: string;
+
+  @ManyToOne(() => UserEntity, user => user.username)
+  @JoinColumn({ name: 'id_usersend' })
+  userReceivedName ?: UserEntity;
+
   @Column({ type: 'uuid' })
   id_userreceived : string;
 
@@ -28,7 +35,7 @@ export class FeedbackEntity {
   message: string;
 
   @Column({ type: 'boolean' })
-  isanonimous ?: boolean;
+  isanonymous ?: boolean;
 
   @Column({ type: 'boolean' })
   isconstructive ?: boolean;

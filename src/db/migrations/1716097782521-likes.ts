@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class MoodsTable1715955848297 implements MigrationInterface {
+export class Likes1716097782521 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
         await queryRunner.createTable(new Table({
-            name: 'user_moods',
+            name: 'likes',
             columns: [
                 {
                     name: 'id',
@@ -19,8 +19,8 @@ export class MoodsTable1715955848297 implements MigrationInterface {
                     type: 'uuid',
                 },
                 {
-                    name: 'moods',
-                    type: 'int',
+                    name: 'id_feedup',
+                    type: 'uuid',
                 },
                 {
                     name: 'created_at',
@@ -37,17 +37,26 @@ export class MoodsTable1715955848297 implements MigrationInterface {
         }), true);
 
         // Adicionando a chave estrangeira 'id_user' referenciando 'users.id'
-        await queryRunner.createForeignKey('user_moods', new TableForeignKey({
-            columnNames: ['id_user'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'users',
-            onDelete: 'CASCADE',
-        }));
-    }
+        await queryRunner.createForeignKeys('likes',[
+
+        new TableForeignKey({columnNames: ['id_user'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
+        onDelete: 'CASCADE', }),
+
+        new TableForeignKey({columnNames: ['id_feedup'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'feedbacks',
+        onDelete: 'CASCADE', })
+    
+        ]);
+    
+
+}
+    
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        // Desfazendo a criação da tabela e da chave estrangeira
-        await queryRunner.dropTable('user_moods');
+        await queryRunner.dropTable('likes');
     }
 
 }

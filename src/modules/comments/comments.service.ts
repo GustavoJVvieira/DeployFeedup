@@ -1,45 +1,56 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CommentsDTO } from './comments.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CommentsEntity } from 'src/db/entities/comments.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommentsService {
-    private comments: CommentsDTO[] = [];
+   constructor(@InjectRepository(CommentsEntity) private readonly commentsRepository : Repository<CommentsEntity>){}
 
-    createComment(comment: CommentsDTO){
-        this.comments.push(comment);
-        console.log(this.comments)
-    }
-
-    findById(id: string): CommentsDTO {
-        const foundComment = this.comments.find(comment => comment.id == id);
-        if (!foundComment) {
-            throw new NotFoundException('Comentario não encontrado');
-        }
+    async createComment(comment: CommentsDTO, user : any, id: string){
         
-        return foundComment;
+        console.log(id)
+
+        const newComments: CommentsDTO = {
+
+            id_usercommented: user.sub,
+            id_feedup: id,
+            message: comment.message,
+            like: comment.like,
+            
+        }
+        return this.commentsRepository.save(newComments);
     }
 
-    updateComment(comments: CommentsDTO){
-        const commentsIndex = this.comments.findIndex(comments => comments.id == comments.id);
+   async findById(id: string){
+        
+       return this.commentsRepository.query(`SELECT users.username, comments.message,
+        comments.like, comments.created_at
+        FROM users
+        INNER JOIN comments ON comments.id_usercommented = users.id
+        WHERE comments.id_feedup = $1;`, [id]);
 
-        if (commentsIndex < 0) {
-            throw new NotFoundException('Comentario não encontrado');
-        }
-
-        this.comments[commentsIndex] = comments;
-        return;
-    }   
-
-    deleteComment(id: string){
-        const commentsIndex = this.comments.findIndex(comments => comments.id == id);
-
-        if (commentsIndex < 0) {
-            throw new NotFoundException('Comentario não encontrado');
-        }
-
-        this.comments.splice(commentsIndex, 1);
-        return;
     }
+       
+    async deleteComment(id: string, user: any){
 
+        const comment = await this.commentsRepository.findOne({where: {id: id}});
 
+        if(!comment){
+            throw new NotFoundException("Comment not found");
+        }
+
+        // Checks if the authenticated user is the owner of the feed
+        if(comment.id_usercommented !== user.sub){
+            throw new NotFoundException("You are not allowed to delete this feed");
+        }
+
+        // If everything is correct, proceed with the deletion
+        await this.commentsRepository.delete(id);
+
+        return { message: `${user.username}, your comment is  deleted successfully`};
+
+    }
+       
 }

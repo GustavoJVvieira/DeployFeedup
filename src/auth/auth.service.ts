@@ -44,7 +44,7 @@ export class AuthService {
       }
 
     getHello(): string{
-        return "Hello World"
+        return "AI CALIQUINHA VC TA NA API, PEIDA NAO PERERECA"
     }
         
     

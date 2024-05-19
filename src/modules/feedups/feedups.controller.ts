@@ -12,8 +12,8 @@ export class FeedupsController {
   
   @Post()
   @UseGuards(AuthGuard)
-  async createFeedup(@Body() feedup: FeedupDTO, @User() username: any) {
-    await this.feedupsService.createFeedup(feedup, username);
+  async createFeedup(@Body() feedup: FeedupDTO, @User() user: any) {
+    await this.feedupsService.createFeedup(feedup, user);
   }
 
     

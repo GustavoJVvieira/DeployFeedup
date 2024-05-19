@@ -26,6 +26,10 @@ export class FeedupsTable1715955824782 implements MigrationInterface {
                     type: 'uuid',
                 },
                 {
+                    name: "username_userreceived",
+                    type: "varchar"
+                },
+                {
                     name: 'value',
                     type: 'varchar',
                 },
@@ -34,7 +38,7 @@ export class FeedupsTable1715955824782 implements MigrationInterface {
                     type: 'varchar',
                 },
                 {
-                    name: 'isanonimous',
+                    name: 'isanonymous',
                     type: 'boolean',
                 },
                 {
@@ -70,6 +74,13 @@ export class FeedupsTable1715955824782 implements MigrationInterface {
             new TableForeignKey({
                 columnNames: ['id_userreceived'],
                 referencedColumnNames: ['id'],
+                referencedTableName: 'users',
+                onDelete: 'CASCADE',
+            }),
+            
+            new TableForeignKey({
+                columnNames: ['username_userreceived'],
+                referencedColumnNames: ['username'],
                 referencedTableName: 'users',
                 onDelete: 'CASCADE',
             }),

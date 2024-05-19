@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { FeedService } from './feed.service';
 import { FeedupDTO, FindAllFeedups } from '../feedups/feedups.dto';
 import { User } from 'src/auth/auth.service';
@@ -13,9 +13,15 @@ export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
   @Get()
-  async findAll(params?: FindAllFeedups): Promise<FeedupDTO[]>{
-    return this.feedService.findAll(params);
+  async findAll(){
+   
+    return this.feedService.findAll();
   }
 
+  @Delete('/:id')
+  async deleteFeedup(@Param('id') id: string, @User() user: any){
+    
+    return this.feedService.deleteFeedup(id, user);
+  }
 
 }

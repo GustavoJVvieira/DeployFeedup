@@ -10,36 +10,82 @@ export class FeedupsService {
     constructor(@InjectRepository(FeedbackEntity) private readonly feedupRepository : Repository<FeedbackEntity>,
     @InjectRepository(UserEntity) private readonly usersRepository : Repository <UserEntity>){}
     
-    async createFeedup(feedup : FeedupDTO, usuario: any){
+    
+    async createFeedup(feedup : FeedupDTO, user: any){
+    const userReceived = await this.usersRepository.findOne({where: {username : feedup.username_userreceived}});
+        
+        async function create(feedup: any, user: any, userReceived : any) {
 
-       const FeedupToSave: FeedbackEntity = {
+            const FeedupToSave: FeedbackEntity =  {
 
-        id_usersend: usuario.sub,
-        id_userreceived: feedup.id_userreceived,
-        value: feedup.value,
-        isconstructive: feedup.isconstructive,
-        isanonimous: feedup.isanonimous,
-        likes: feedup.likes,
-        message: feedup.message
+                id_usersend: user.sub,
+                id_userreceived: userReceived.id,
+                username_userreceived: userReceived.username,
+                value: feedup.value,
+                isconstructive: feedup.isconstructive,
+                isanonymous: feedup.isanonymous,
+                likes: feedup.likes,
+                message: feedup.message
+        
+               }
 
-       }
-       const createdFeedup = await this.feedupRepository.save(FeedupToSave);
+               return FeedupToSave;
+        }
+        
+        
+        create( feedup, user, userReceived).then((FeedupToSave) => {
+            
+
+             this.usersRepository.query(`UPDATE users SET coin = coin + 100 WHERE id = $1`, [user.sub]);
+             this.usersRepository.query(`UPDATE users SET coin = coin + 200 WHERE id = $1`, [FeedupToSave.id_userreceived]);
+           
+            
+            this.feedupRepository.save(FeedupToSave);
+
+        }).catch((error) => {
+
+            console.error('Erro ao criar o feedup:', error);
+
+        });
        
-       await this.usersRepository.query(`UPDATE users SET coin = coin + 100 WHERE id = $1`, [usuario.sub]);
-       await this.usersRepository.query(`UPDATE users SET coin = coin + 200 WHERE id = $1`, [feedup.id_userreceived]);
+       
 
-       return this.mapEntityToDTO(createdFeedup);
+       
+
+       
+
+       //return this.mapEntityToDTO(createdFeedup);
 
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     private mapEntityToDTO(feedup: FeedbackEntity): FeedupDTO {
         return {
 
         id_usersend: feedup.id_usersend,
+        username_userreceived: feedup.username_userreceived,
         id_userreceived: feedup.id_userreceived,
         value: feedup.value,
         isconstructive: feedup.isconstructive,
-        isanonimous: feedup.isanonimous,
+        isanonymous: feedup.isanonymous,
         likes: feedup.likes,
         message: feedup.message
         
