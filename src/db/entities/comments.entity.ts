@@ -31,10 +31,6 @@ export class CommentsEntity {
   @MinLength(1)
   message: string;
 
-  @Column({ type: 'int', default: 0 })
-  @IsInt()
-  like: number;
-
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 

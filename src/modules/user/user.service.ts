@@ -21,9 +21,9 @@ export class UserService {
         dbUser.username = newUser.username;
         dbUser.role = newUser.role;
         dbUser.coin = newUser.coin;
-        dbUser.people = newUser.people;
-        dbUser.leader = newUser.leader;
-        
+        dbUser.typeuser = newUser.typeuser;
+      
+
         dbUser.password = bcryptHashSync(newUser.password, 10);
 
         const {email, name} = await this.usersRepository.save(dbUser);
@@ -48,8 +48,7 @@ export class UserService {
           name: emailFound.name,
           role: emailFound.role,
           coin: emailFound.coin,
-          leader: emailFound.leader,
-          people: emailFound.people,
+          typeuser: emailFound.typeuser,
           username: emailFound.username,
         };
       }

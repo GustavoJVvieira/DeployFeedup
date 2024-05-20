@@ -1,19 +1,18 @@
 import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
-import { LeaderService } from './leader.service';
+import { PeopleService } from './people.service';
+import { ApiResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { User } from 'src/auth/auth.service';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/enum/user-type.enum';
 
-@UseGuards(AuthGuard)
-@ApiTags('Leader')
-@Controller('leader')
-export class LeaderController {
-  constructor(private readonly leaderService: LeaderService) {}
-
+@ApiTags('People')
+@Controller('people')
+export class PeopleController {
+  constructor(private readonly peopleService: PeopleService) {}
+  
   @Get("")
-  @Roles(UserType.Leader)
+  @Roles(UserType.People)
   
   @ApiResponse({ status: 200, description: 'As informações foram retornadas com sucesso'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -24,11 +23,11 @@ export class LeaderController {
   @UseGuards(AuthGuard)
 
   async getLeaderBoard(@User() user : any) {
-    return this.leaderService.getLeaderBoard(user);
+    return this.peopleService.getLeaderBoard(user);
   }
 
   @Delete("/:id")
-  @Roles(UserType.Leader)
+  @Roles(UserType.People)
 
   @ApiResponse({ status: 204, description: 'O Feedup foi excluido com sucesso'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -39,13 +38,13 @@ export class LeaderController {
   @UseGuards(AuthGuard)
   
   async deleteFeedup(@Param("id") id: string, @User() user : any){
-    return this.leaderService.deleteFeedup(id, user);
+    return this.peopleService.deleteFeedup(id, user);
   }
 
   @Get("/:username")
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   async getColaborator(@Param("username") username: string){
-    return this.leaderService.getColaborator(username);
+    return this.peopleService.getColaborator(username);
   }
 }

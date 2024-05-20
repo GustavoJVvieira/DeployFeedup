@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { IsUUID, IsString, IsEmail, IsInt, Min, IsBoolean } from 'class-validator';
+import { IsUUID, IsString, IsEmail, IsInt, Min, IsBoolean, Max } from 'class-validator';
 import bcrypt from 'bcrypt';
 
 @Entity('users')
@@ -33,13 +33,11 @@ export class UserEntity {
   @Min(0)
   coin: number;
 
-  @Column({ type: 'boolean' })
-  @IsBoolean()
-  leader: boolean;
-
-  @Column({ type: 'boolean' })
-  @IsBoolean()
-  people: boolean;
+  @Column({ type: 'int' })
+  @IsInt()
+  @Min(0)
+  @Max(3)
+  typeuser: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

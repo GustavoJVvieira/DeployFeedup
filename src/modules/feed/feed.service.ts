@@ -13,7 +13,7 @@ export class FeedService {
     //Injectable Find All Feedups
     async findAll() {
         const feedupFound = await this.feedupRepository.query(` SELECT 
-        feedbacks.id, feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
+        feedbacks.isanonymous, feedbacks.id, feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
         user_received.name AS receiver_name, user_received.username AS receiver_username
          FROM feedbacks INNER JOIN users AS user_send ON feedbacks.id_usersend = user_send.id
         INNER JOIN users AS user_received ON feedbacks.id_userreceived = user_received.id
@@ -24,12 +24,15 @@ export class FeedService {
         ON feedbacks.id_usersend = user_send.id
         GROUP BY feedbacks.id_usersend, user_send.name, user_send.username ORDER BY COUNT (*) DESC;`);
 
+
         for (let i = 0; i < feedupFound.length; i++) {
-            if( feedupFound[i].isanonymous == true){
-                feedupFound[i].sender_name = 'Anônimo'
-                feedupFound[i].sender_username = 'Anônimo'
-            }
-        }
+
+        // Verifica se 'isanonymous' existe e é verdadeiro
+        if (feedupFound[i].isanonymous && feedupFound[i].isanonymous === true) {
+            feedupFound[i].sender_name = 'Anônimo';
+            feedupFound[i].sender_username = 'Anônimo';
+    }
+  }
        
         return {users, feedupFound}
 

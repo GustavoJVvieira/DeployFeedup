@@ -16,6 +16,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post()
+
   @ApiResponse({ status: 201, description: 'Login efetuado com sucesso'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
   @ApiResponse({ status: 404, description: 'Not Found'})

@@ -16,7 +16,7 @@ export class FeedupsService {
         
         async function create(feedup: any, user: any, userReceived : any) {
 
-            const FeedupToSave =  {
+            const FeedupToSave : FeedupDTO =  {
 
                 id_usersend: user.sub,
                 id_userreceived: userReceived.id,
@@ -24,7 +24,6 @@ export class FeedupsService {
                 value: feedup.value,
                 isconstructive: feedup.isconstructive,
                 isanonymous: feedup.isanonymous,
-                likes: feedup.likes,
                 message: feedup.message
         
                }
@@ -47,48 +46,5 @@ export class FeedupsService {
             console.error('Erro ao criar o feedup:', error);
 
         });
-       
-       
-
-       
-
-       
-
-       //return this.mapEntityToDTO(createdFeedup);
-
-    }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    private mapEntityToDTO(feedup: FeedbackEntity): FeedupDTO {
-        return {
-
-        id_usersend: feedup.id_usersend,
-        username_userreceived: feedup.username_userreceived,
-        id_userreceived: feedup.id_userreceived,
-        value: feedup.value,
-        isconstructive: feedup.isconstructive,
-        isanonymous: feedup.isanonymous,
-        likes: feedup.likes,
-        message: feedup.message
-        
-        }
     }
 }

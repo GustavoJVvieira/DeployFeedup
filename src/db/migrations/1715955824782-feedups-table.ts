@@ -46,11 +46,6 @@ export class FeedupsTable1715955824782 implements MigrationInterface {
                     type: 'boolean',
                 },
                 {
-                    name: 'likes',
-                    type: 'int',
-                    default: 0,
-                },
-                {
                     name: 'created_at',
                     type: 'timestamp',
                     default: 'CURRENT_TIMESTAMP',

@@ -5,7 +5,8 @@ import { UserEntity } from 'src/db/entities/users.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class LeaderService {
+export class PeopleService {
+
     constructor(@InjectRepository(UserEntity) private readonly usersRepository : Repository<UserEntity>,
     @InjectRepository(FeedbackEntity) private readonly feedupRepository: Repository<FeedbackEntity>){}
 
@@ -14,6 +15,7 @@ async getLeaderBoard(username: any){
 
 const users = await this.usersRepository.query(`SELECT u.*, COUNT(f.id_usersend) AS total_feedbacks
 FROM users AS u LEFT JOIN feedbacks AS f ON u.id = f.id_userreceived WHERE u.id = $1 GROUP BY u.id;`, [username.sub])
+
 const feedback_send =  await this.feedupRepository.find({where :{id_usersend : username.sub}})
 const feedback_received =  await this.feedupRepository.find({where :{id_userreceived : username.sub}})
 
@@ -42,7 +44,6 @@ return {message : `${user.username} your feedup was deleted`}
 
 }
 
-
 async getColaborator(username : string){
 
     const colaborator = await this.usersRepository.findOne({where : {username : username}})
@@ -64,4 +65,5 @@ async getColaborator(username : string){
     
     return {users, feedback_send, feedback_received}
 }
+
 }

@@ -28,7 +28,8 @@ export class AuthService {
           email: foundUser.email,
           name: foundUser.name,
           role: foundUser.role,
-          coin: foundUser.coin };    
+          coin: foundUser.coin,
+          typeuser: foundUser.typeuser };    
         const token = this.jwtService.sign(payload);
 
         return {token, expiresIn: this.jwtExpirationTimeInSeconds}
@@ -37,12 +38,13 @@ export class AuthService {
 
     async validate(payload: any) {
        
-        return { id: payload.sub, 
+        return { sub: payload.sub, 
           username: payload.username, 
           email: payload.email,
           name: payload.name,
           role: payload.role,
-          coin: payload.coin};
+          coin: payload.coin,
+          typeuser: payload.typeuser};
       }
 
     getHello(): string{

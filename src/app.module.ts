@@ -12,6 +12,10 @@ import { FeedModule } from './modules/feed/feed.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { LikesModule } from './modules/likes/likes.module';
 import { LeaderModule } from './modules/leader/leader.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './guard/roles.guard';
+import { JwtModule } from '@nestjs/jwt';
+import { PeopleModule } from './modules/people/people.module';
 
 @Module({
   imports: [ 
@@ -19,8 +23,13 @@ import { LeaderModule } from './modules/leader/leader.module';
     ConfigModule.forRoot({
     isGlobal: true,
   }),
-    UserModule, FeedupsModule, MoodsModule, CommentsModule, AuthModule, DbModule, FeedModule, ProfileModule, LikesModule, LeaderModule],
+    UserModule, FeedupsModule, MoodsModule, CommentsModule, AuthModule, DbModule, FeedModule, 
+    ProfileModule, LikesModule, LeaderModule, JwtModule, PeopleModule],
+
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,   {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+  },],
 })
 export class AppModule {}

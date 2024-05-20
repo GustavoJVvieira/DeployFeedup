@@ -20,7 +20,6 @@ export class CommentsService {
       id_usercommented: user.id,
       id_feedup: id,
       message: comment.message,
-      like: comment.like,
     });
 
     return this.commentsRepository.save(newComment);
@@ -32,7 +31,6 @@ export class CommentsService {
       .select([
         'users.username',
         'comments.message',
-        'comments.like',
         'comments.created_at',
       ])
       .innerJoin('comments.id_usercommented', 'users')

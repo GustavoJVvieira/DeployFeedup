@@ -8,6 +8,7 @@ export class FeedupDTO {
     example: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
     required: false
   })
+  @IsOptional()
   @IsUUID()
   id?: string;
 
@@ -16,6 +17,7 @@ export class FeedupDTO {
     example: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
     required: false
   })
+  @IsOptional()
   @IsUUID()
   id_usersend: string;
 
@@ -24,6 +26,7 @@ export class FeedupDTO {
     example: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
     required: false
   })
+  @IsOptional()
   @IsUUID()
   id_userreceived: string;
 
@@ -72,15 +75,6 @@ export class FeedupDTO {
   isconstructive: boolean;
 
   @ApiProperty({
-    description: "Quantidade de Likes do Post",
-    example: 0,
-    required: false
-  })
-  @IsOptional()
-  @IsInt()
-  likes?: number;
-
-  @ApiProperty({
     description: "Data de Criação do Feedup.",
     example: "2024-05-18T20:03:39.486Z",
     required: false
@@ -99,18 +93,3 @@ export class FeedupDTO {
   updated_at?: Date;
 }
 
-export class FindAllFeedups{
-    id ?: string;
-    id_usersend: string;
-    id_userreceived: string;
-    username_userreceived ?: string;
-    value: string;
-    message: string;
-    isanonymous ?: boolean;
-    isconstructive ?: boolean;
-    likes: number;
-    created_at ?: Date;
-    updated_at ?: Date;
-
-  
-}

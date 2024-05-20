@@ -1,5 +1,6 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserEntity } from "src/db/entities/users.entity";
 
 export class UserDTO {
 
@@ -9,7 +10,8 @@ export class UserDTO {
     required: false
   })
   @IsUUID("4", { message: "O ID deve estar em formato UUIDv4." })
-  id?: string;
+  @IsOptional()
+  id ?: string;
 
   @ApiProperty({
     description: "Senha do usuário.",
@@ -17,7 +19,7 @@ export class UserDTO {
     required: true
   })
   @IsNotEmpty({ message: "A senha é obrigatória." })
-  @MinLength(8, { message: "A senha deve ter pelo menos 8 caracteres." })
+  @MinLength(3, { message: "A senha deve ter pelo menos 3 caracteres." })
   password: string;
 
   @ApiProperty({
@@ -62,21 +64,14 @@ export class UserDTO {
   @IsNumber({}, { message: "A quantidade de nozes deve ser um número." })
   coin?: number;
 
-  @ApiProperty({
-    description: "O Usuário é um líder?",
-    example: true,
-    required: true
-  })
-  @IsNotEmpty({ message: "A informação sobre ser líder é obrigatória." })
-  leader: boolean;
 
   @ApiProperty({
-    description: "O Usuário é do time de people?",
-    example: true,
+    description: "Qual o tipo de Usuário? 1- Usuário Comum 2-Líder 3-People",
+    example: 1,
     required: true
   })
-  @IsNotEmpty({ message: "A informação sobre ser do time de people é obrigatória." })
-  people: boolean;
+  @IsNotEmpty({ message: "A informação sobre o tipo de usuario é obrigatória." })
+  typeuser: number;
   
   @ApiProperty({
     description: "Data de Criação do Usuário.",
@@ -90,24 +85,18 @@ export class UserDTO {
     example: "2024-05-18T20:03:39.486Z",
     required: false
   })
-  @IsNotEmpty({ message: "A data de atualização é obrigatória." })
+  @IsOptional()
   updated_at?: Date;
 
 }
 
-export class FindAllUsers{
-   
-    id: string;
-    username: string;
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-    coin: number;
-    leader: boolean;
-    people: boolean;
 
+export class LoginPayload {
+  sub: string;
+  typeuser: number;
+
+  constructor(user: UserEntity) {
+    this.sub = user.id;
+    this.typeuser = user.typeuser;
+  }
 }
-
-
-

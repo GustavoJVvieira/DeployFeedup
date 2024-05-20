@@ -23,6 +23,7 @@ async function bootstrap() {
     .addTag('Moods')
     .addTag('Leader')
     .addTag('Form')
+    .addTag('People')
     .addBearerAuth()
     .build();
 

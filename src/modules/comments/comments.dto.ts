@@ -37,15 +37,7 @@ export class CommentsDTO {
   @MinLength(1)
   message?: string;
 
-  @ApiProperty({
-    description: "Número de curtidas do comentário.",
-    example: 10,
-    required: false
-  })
-  @IsOptional()
-  @IsInt()
-  like?: number;
-
+ 
   @ApiProperty({
     description: "Data de Criação do Comentário.",
     example: "2024-05-18T20:03:39.486Z",

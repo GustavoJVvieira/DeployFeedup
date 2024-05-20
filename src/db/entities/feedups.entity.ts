@@ -51,11 +51,6 @@ export class FeedbackEntity {
   @IsBoolean()
   isconstructive: boolean;
 
-  @Column({ type: 'int', default: 0 })
-  @IsInt()
-  @Min(0)
-  likes: number;
-
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 

@@ -30,11 +30,6 @@ export class CommentsTable1715955839468 implements MigrationInterface {
                     type: 'varchar',
                 },
                 {
-                    name: 'like',
-                    type: 'int',
-                    default: 0,
-                },
-                {
                     name: 'created_at',
                     type: 'timestamp',
                     default: 'CURRENT_TIMESTAMP',

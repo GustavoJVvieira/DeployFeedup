@@ -42,12 +42,8 @@ export class UsersTable1715955798488 implements MigrationInterface {
                     type: 'int',
                 },
                 {
-                    name: 'leader',
-                    type: 'boolean',
-                },
-                {
-                    name: 'people',
-                    type: 'boolean',
+                    name: 'typeuser',
+                    type: 'int',
                 },
                 {
                     name: 'created_at',
