@@ -1,5 +1,4 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -17,7 +16,7 @@ export class AuthGuard implements CanActivate {
     const token = this.extractTokenFromHeader(request);
 
     if(!token){
-      throw new UnauthorizedException("IH paizao deu pau no guard")
+      throw new UnauthorizedException("You are not Allowed. Please provide a valid Token ")
     }
 
     try{
@@ -27,7 +26,7 @@ export class AuthGuard implements CanActivate {
         request['user'] = payload;
     }
     catch{
-      throw new UnauthorizedException("IH paizao deu pau no guard catch ")
+      throw new UnauthorizedException("Error 401 Guard Expirated ")
     }
     return true;
   }

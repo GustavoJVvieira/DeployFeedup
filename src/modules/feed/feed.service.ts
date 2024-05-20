@@ -13,7 +13,7 @@ export class FeedService {
     //Injectable Find All Feedups
     async findAll() {
         const feedupFound = await this.feedupRepository.query(` SELECT 
-        feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
+        feedbacks.id, feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
         user_received.name AS receiver_name, user_received.username AS receiver_username
          FROM feedbacks INNER JOIN users AS user_send ON feedbacks.id_usersend = user_send.id
         INNER JOIN users AS user_received ON feedbacks.id_userreceived = user_received.id

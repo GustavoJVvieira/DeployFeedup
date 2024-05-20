@@ -16,7 +16,7 @@ export class FeedupsService {
         
         async function create(feedup: any, user: any, userReceived : any) {
 
-            const FeedupToSave: FeedbackEntity =  {
+            const FeedupToSave =  {
 
                 id_usersend: user.sub,
                 id_userreceived: userReceived.id,

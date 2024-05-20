@@ -1,30 +1,68 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CommentsDTO } from './comments.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { User } from 'src/auth/auth.service';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
-@UseGuards(AuthGuard) // Autorization Guard User
+@UseGuards(AuthGuard)
+@ApiTags('Comments') 
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
   
   @Post("/:id")
+
+  @ApiResponse({ status: 201, description: 'O Comentário foi adicionado com sucesso'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  @ApiResponse({ status: 404, description: 'Not Found'})
+  @ApiResponse({ status: 500, description: 'Internal Server Error'})
+  @ApiBearerAuth()
+
   @UseGuards(AuthGuard)
-  createComment(@Body() comments: CommentsDTO, @User() user: any, @Param("id") id: string) {
+
+  createComment(
+    @Body(new ValidationPipe({ transform: true })) comments: CommentsDTO, 
+    @User() user: any, 
+    @Param("id") id: string
+  ) {
     this.commentsService.createComment(comments, user, id);
   }
 
   @Get('/:id')
-  findById(@Param('id') id: string){
-      return this.commentsService.findById(id);
-  }
 
+  @ApiResponse({ status: 200, description: 'O Comentário foi retornado com sucesso'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  @ApiResponse({ status: 404, description: 'Not Found'})
+  @ApiResponse({ status: 500, description: 'Internal Server Error'})
+  @ApiBearerAuth()
+
+  @UseGuards(AuthGuard)
+
+  async findById(@Param('id') id: string) {
+    const comment = await this.commentsService.findById(id);
+
+    if (!comment) {
+      throw new NotFoundException('Comment not found');
+    }
+    return comment;
+  }
 
   @Delete("/:id")
-  deleteComment(@Param("id") id : string, @User() user: any) {
-      this.commentsService.deleteComment(id, user);
-  }
-  
+  @ApiResponse({ status: 204, description: 'O Comentário foi deletado com sucesso'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  @ApiResponse({ status: 404, description: 'Not Found'})
+  @ApiResponse({ status: 500, description: 'Internal Server Error'})
+  @ApiBearerAuth()
+
+  @UseGuards(AuthGuard)
+
+  async deleteComment(@Param("id") id : string, @User() user: any) {
+    const deleted = await this.commentsService.deleteComment(id, user);
+    if (!deleted) {
+      throw new NotFoundException('Comment not found or you do not have permission to delete it');
+    }
+    return deleted;
+  }  
 }

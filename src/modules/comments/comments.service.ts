@@ -1,56 +1,58 @@
+
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CommentsDTO } from './comments.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CommentsEntity } from 'src/db/entities/comments.entity';
 import { Repository } from 'typeorm';
+
+import { CommentsDTO } from './comments.dto';
+import { CommentsEntity } from 'src/db/entities/comments.entity';
+import { UserEntity } from 'src/db/entities/users.entity';
+ // Importe a entidade de usuários
 
 @Injectable()
 export class CommentsService {
-   constructor(@InjectRepository(CommentsEntity) private readonly commentsRepository : Repository<CommentsEntity>){}
+  constructor(
+    @InjectRepository(CommentsEntity)
+    private readonly commentsRepository: Repository<CommentsEntity>,
+  ) {}
 
-    async createComment(comment: CommentsDTO, user : any, id: string){
-        
-        console.log(id)
+  async createComment(comment: CommentsDTO, user: UserEntity, id: string) {
+    const newComment = this.commentsRepository.create({
+      id_usercommented: user.id,
+      id_feedup: id,
+      message: comment.message,
+      like: comment.like,
+    });
 
-        const newComments: CommentsDTO = {
+    return this.commentsRepository.save(newComment);
+  }
 
-            id_usercommented: user.sub,
-            id_feedup: id,
-            message: comment.message,
-            like: comment.like,
-            
-        }
-        return this.commentsRepository.save(newComments);
+  async findById(id: string) {
+    return this.commentsRepository
+      .createQueryBuilder('comments')
+      .select([
+        'users.username',
+        'comments.message',
+        'comments.like',
+        'comments.created_at',
+      ])
+      .innerJoin('comments.id_usercommented', 'users')
+      .where('comments.id_feedup = :id', { id })
+      .getRawMany();
+  }
+
+  async deleteComment(id: string, user: UserEntity) {
+    const comment = await this.commentsRepository.findOne({where:{id}});
+
+    if (!comment) {
+      throw new NotFoundException('Comment not found');
     }
 
-   async findById(id: string){
-        
-       return this.commentsRepository.query(`SELECT users.username, comments.message,
-        comments.like, comments.created_at
-        FROM users
-        INNER JOIN comments ON comments.id_usercommented = users.id
-        WHERE comments.id_feedup = $1;`, [id]);
-
+    if (comment.id_usercommented !== user.id) {
+      throw new NotFoundException('You are not allowed to delete this comment');
     }
-       
-    async deleteComment(id: string, user: any){
 
-        const comment = await this.commentsRepository.findOne({where: {id: id}});
+    await this.commentsRepository.delete(id);
 
-        if(!comment){
-            throw new NotFoundException("Comment not found");
-        }
-
-        // Checks if the authenticated user is the owner of the feed
-        if(comment.id_usercommented !== user.sub){
-            throw new NotFoundException("You are not allowed to delete this feed");
-        }
-
-        // If everything is correct, proceed with the deletion
-        await this.commentsRepository.delete(id);
-
-        return { message: `${user.username}, your comment is  deleted successfully`};
-
-    }
-       
+    return { message: `${user.username}, your comment was deleted successfully` };
+  }
 }

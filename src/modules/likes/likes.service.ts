@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LikesEntity } from 'src/db/entities/likes.entity';
 import { Repository } from 'typeorm';
-import { LikesModule } from './likes.module';
+
 
 @Injectable()
 export class LikesService {

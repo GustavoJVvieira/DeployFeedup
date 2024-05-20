@@ -55,36 +55,7 @@ export class UserService {
       }
     
 
-    /*findById(id: string): UserDTO {
-        const foundUser = this.usersRepository.find(this.usersRepository => this.usersRepository.id == id);
-
-        if (!foundUser) {
-            throw new NotFoundException('Usuario não encontrado');
-        }
-        
-        return foundUser;
-    }*/
-
-    /*updateUser(user: UserDTO){
-        const userIndex = this.users.findIndex(user => user.id == user.id);
-
-        if (userIndex < 0) {
-            throw new NotFoundException('Usuario não encontrado');
-        }
-
-        this.users[userIndex] = user;
-        return;
-    }  */
-
-    /*async findAll(params: FindAllUsers):Promise<UserDTO>{
-        const searchUsers: FindOptionsWhere<UserEntity> = {}
-
-        const usersFound = await this.usersRepository.find({
-            where: searchUsers
-          });
-        
-          return usersFound.map(UserEntity => this.mapEntityToDto(taskEntity));
-    }*/
+    
 }
 
 

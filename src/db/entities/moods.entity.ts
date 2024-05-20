@@ -1,13 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { IsUUID, IsInt, Min } from 'class-validator';
 import { UserEntity } from './users.entity';
-
 
 @Entity('user_moods')
 export class MoodsEntity {
   @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
   id: string;
 
   @Column({ type: 'uuid' })
+  @IsUUID()
   id_user: string;
 
   @ManyToOne(() => UserEntity, user => user.id)
@@ -15,6 +17,8 @@ export class MoodsEntity {
   user: UserEntity;
 
   @Column({ type: 'int' })
+  @IsInt()
+  @Min(0)
   moods: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'NOW()' })

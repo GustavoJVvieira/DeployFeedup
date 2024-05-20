@@ -5,6 +5,7 @@ import { compareSync as bcryptCompareSync } from 'bcrypt';
 import { AuthResponseDTO } from './auth.dto';
 import { ConfigService } from '@nestjs/config';
 
+
 @Injectable()
 export class AuthService {
     private jwtExpirationTimeInSeconds: number;
@@ -19,10 +20,10 @@ export class AuthService {
         const foundUser = await this.userService.findByEmail(email);
 
         if(!foundUser || !bcryptCompareSync(password, foundUser.password)){
-            throw new UnauthorizedException('Ih paizao nao vai dar pra entrar');
+            throw new UnauthorizedException('You are not Allowed. Please provide a valid Token ');
         }
 
-        const payload = {sub: foundUser.id, 
+        const payload  = {sub: foundUser.id, 
           username: foundUser.username, 
           email: foundUser.email,
           name: foundUser.name,
@@ -31,10 +32,11 @@ export class AuthService {
         const token = this.jwtService.sign(payload);
 
         return {token, expiresIn: this.jwtExpirationTimeInSeconds}
+
     }
 
     async validate(payload: any) {
-        // Certifique-se de que o payload inclua o ID do usuário
+       
         return { id: payload.sub, 
           username: payload.username, 
           email: payload.email,
@@ -44,7 +46,7 @@ export class AuthService {
       }
 
     getHello(): string{
-        return "AI CALIQUINHA VC TA NA API, PEIDA NAO PERERECA"
+        return "Hello World"
     }
         
     

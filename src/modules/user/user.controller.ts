@@ -2,31 +2,24 @@ import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nest
 import { UserDTO } from './user.dto';
 import { UserService } from './user.service';
 import { UserEntity } from 'src/db/entities/users.entity';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('User')
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService){}
     
     
     @Post()
+    @ApiResponse({ status: 201, description: 'Foi feito o cadastro de usuário com sucesso'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 404, description: 'Not Found'})
+    @ApiResponse({ status: 500, description: 'Internal Server Error'})
+   
     createUser(@Body() user: UserDTO) {
       this.userService.createUser(user);
     }
 
-   /* @Get('/:id')
-    findById(@Param('id') id: string): UserDTO {
-        return this.userService.findById(id);
-    }
 
-    /*@Put()
-    updateUser(@Body() user: UserDTO) {
-        this.userService.updateUser(user);
-    }
-
-    @Get()
-    findAll(@Query() params: FindAllUsers): UserDTO[] {
-        return this.userService.findAll(params);
-    }*/
     
 }
