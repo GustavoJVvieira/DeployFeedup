@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FeedupDTO } from './feedups.dto';
+import { FeedupDTO } from './dto/feedups.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FeedbackEntity } from 'src/db/entities/feedups.entity';
 import { Repository } from 'typeorm';

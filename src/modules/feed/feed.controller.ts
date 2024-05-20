@@ -1,8 +1,8 @@
 import { Controller, Delete, Get, NotFoundException, Param, Req, UseGuards } from '@nestjs/common';
 import { FeedService } from './feed.service';
-import { User } from 'src/auth/auth.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/roles.decorator';
 
 
 @UseGuards(AuthGuard)

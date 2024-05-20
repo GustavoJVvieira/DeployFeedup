@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { FeedupsService } from './feedups.service';
-import { FeedupDTO } from './feedups.dto';
+import { FeedupDTO } from './dto/feedups.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { User } from 'src/auth/auth.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/roles.decorator';
 
 @UseGuards(AuthGuard) // Autorization Guard User
 @ApiTags('Form')

@@ -43,10 +43,15 @@ return {message : `${user.username} your feedup was deleted`}
 }
 
 
-async getColaborator(username : string){
+async getColaborator(username : string, user : any){
+    
 
     const colaborator = await this.usersRepository.findOne({where : {username : username}})
 
+    if(user.role != colaborator.role){
+        throw new NotFoundException("You can't see this user")
+    }
+    
     const users = await this.usersRepository.query(`SELECT u.username, u.name, u.email, u.role, u.coin, COUNT(f.id_usersend) AS total_feedbacks
     FROM users AS u LEFT JOIN feedbacks AS f ON u.id = f.id_userreceived WHERE u.id = $1 GROUP BY u.id;`, [colaborator.id])
 

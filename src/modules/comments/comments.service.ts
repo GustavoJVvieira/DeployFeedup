@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CommentsDTO } from './comments.dto';
+import { CommentsDTO } from './dto/comments.dto';
 import { CommentsEntity } from 'src/db/entities/comments.entity';
 import { UserEntity } from 'src/db/entities/users.entity';
  // Importe a entidade de usuários

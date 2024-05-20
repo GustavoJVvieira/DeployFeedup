@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import {  UserDTO } from './user.dto';
+import {  UserDTO } from './dto/user.dto';
 import { v4 as uuid } from 'uuid';
 import { hashSync as bcryptHashSync} from "bcrypt"
 import { InjectRepository } from '@nestjs/typeorm';

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { UserDTO } from './user.dto';
+import { UserDTO } from './dto/user.dto';
 import { UserService } from './user.service';
 import { UserEntity } from 'src/db/entities/users.entity';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';

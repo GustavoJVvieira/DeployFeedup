@@ -1,8 +1,8 @@
 import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { User } from 'src/auth/auth.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/roles.decorator';
 
 @ApiTags('Profile')
 @Controller('profile')

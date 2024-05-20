@@ -3,7 +3,7 @@ import { FeedupsService } from './feedups.service';
 import { FeedupsController } from './feedups.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeedbackEntity } from 'src/db/entities/feedups.entity';
-import { FeedupDTO } from './feedups.dto';
+import { FeedupDTO } from './dto/feedups.dto';
 import { UserEntity } from 'src/db/entities/users.entity';
 
 @Module({

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { CommentsService } from './comments.service';
-import { CommentsDTO } from './comments.dto';
+import { CommentsDTO } from './dto/comments.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { User } from 'src/auth/auth.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/roles.decorator';
 
 
 @UseGuards(AuthGuard)

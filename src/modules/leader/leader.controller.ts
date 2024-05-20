@@ -1,9 +1,8 @@
-import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { LeaderService } from './leader.service';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { User } from 'src/auth/auth.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/decorators/roles.decorator';
+import { Roles, User } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/enum/user-type.enum';
 
 @UseGuards(AuthGuard)
@@ -13,8 +12,9 @@ export class LeaderController {
   constructor(private readonly leaderService: LeaderService) {}
 
   @Get("")
+
   @Roles(UserType.Leader)
-  
+
   @ApiResponse({ status: 200, description: 'As informações foram retornadas com sucesso'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
   @ApiResponse({ status: 404, description: 'Not Found'})
@@ -45,7 +45,7 @@ export class LeaderController {
   @Get("/:username")
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  async getColaborator(@Param("username") username: string){
-    return this.leaderService.getColaborator(username);
+  async getColaborator(@Param("username") username: string, @User() user : any){
+    return this.leaderService.getColaborator(username, user);
   }
 }

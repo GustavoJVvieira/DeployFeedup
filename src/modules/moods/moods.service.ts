@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { MoodsDTO } from './moods.dto';
+import { MoodsDTO } from './dto/moods.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoodsEntity } from 'src/db/entities/moods.entity';
 import { Repository } from 'typeorm';

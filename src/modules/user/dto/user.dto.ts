@@ -91,12 +91,3 @@ export class UserDTO {
 }
 
 
-export class LoginPayload {
-  sub: string;
-  typeuser: number;
-
-  constructor(user: UserEntity) {
-    this.sub = user.id;
-    this.typeuser = user.typeuser;
-  }
-}

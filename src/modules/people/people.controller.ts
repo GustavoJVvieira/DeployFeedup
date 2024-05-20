@@ -2,8 +2,7 @@ import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { PeopleService } from './people.service';
 import { ApiResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { User } from 'src/auth/auth.service';
-import { Roles } from 'src/decorators/roles.decorator';
+import { Roles, User } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/enum/user-type.enum';
 
 @ApiTags('People')
