@@ -22,11 +22,19 @@ export class ProfileService {
        INNER JOIN users AS user_received ON feedbacks.id_userreceived = user_received.id WHERE user_send.id = $1` ,[username.sub]) 
        
        const feedback_received =  await this.feedupRepository.query(`SELECT 
-       feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
+       feedbacks.isanonymous, feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
        user_received.name AS receiver_name, user_received.username AS receiver_username
         FROM feedbacks INNER JOIN users AS user_send ON feedbacks.id_usersend = user_send.id
        INNER JOIN users AS user_received ON feedbacks.id_userreceived = user_received.id WHERE user_received.id = $1` , [username.sub]) 
 
+       for (let i = 0; i < feedback_received.length; i++) {
+
+        // Verifica se 'isanonymous' existe e é verdadeiro
+        if (feedback_received[i].isanonymous && feedback_received[i].isanonymous === true) {
+            feedback_received[i].sender_name = 'Anônimo';
+            feedback_received[i].sender_username = 'Anônimo';
+        }
+    }
        return {users, feedback_send, feedback_received}
 
     }

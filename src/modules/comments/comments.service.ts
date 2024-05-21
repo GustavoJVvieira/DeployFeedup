@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CommentsDTO } from './dto/comments.dto';
 import { CommentsEntity } from 'src/db/entities/comments.entity';
 import { UserEntity } from 'src/db/entities/users.entity';
+import { identity } from 'rxjs';
  // Importe a entidade de usuários
 
 @Injectable()
@@ -15,27 +16,26 @@ export class CommentsService {
     private readonly commentsRepository: Repository<CommentsEntity>,
   ) {}
 
-  async createComment(comment: CommentsDTO, user: UserEntity, id: string) {
+  async createComment(params: any, user: any, id: string)
+   {
+
     const newComment = this.commentsRepository.create({
-      id_usercommented: user.id,
+      id_usercommented: user.sub,
       id_feedup: id,
-      message: comment.message,
+      message: params.message,
     });
 
     return this.commentsRepository.save(newComment);
   }
 
   async findById(id: string) {
-    return this.commentsRepository
-      .createQueryBuilder('comments')
-      .select([
-        'users.username',
-        'comments.message',
-        'comments.created_at',
-      ])
-      .innerJoin('comments.id_usercommented', 'users')
-      .where('comments.id_feedup = :id', { id })
-      .getRawMany();
+    
+    return this.commentsRepository.query(`SELECT
+    users.username, comments.message, comments.created_at FROM
+    comments INNER JOIN users ON users.id = comments.id_usercommented
+    INNER JOIN  feedbacks ON feedbacks.id = comments.id_feedup
+    WHERE feedbacks.id = $1`, [id])
+
   }
 
   async deleteComment(id: string, user: UserEntity) {

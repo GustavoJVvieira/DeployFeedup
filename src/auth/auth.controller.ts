@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthResponseDTO } from './auth.dto';
+import { AuthResponseDTO } from './dto/auth.dto';
 import { HttpException, HttpStatus } from '@nestjs/common'; 
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 

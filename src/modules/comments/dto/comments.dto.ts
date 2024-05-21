@@ -32,6 +32,7 @@ export class CommentsDTO {
     example: "Isso é um comentário.",
     required: true
   })
+  
   @IsNotEmpty({message: "A mensagem do Usuário é obrigatório"})
   @IsString()
   @MinLength(1)

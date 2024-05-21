@@ -2,7 +2,7 @@ import { ExecutionContext, Injectable, UnauthorizedException, createParamDecorat
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/modules/user/user.service';
 import { compareSync as bcryptCompareSync } from 'bcrypt';
-import { AuthResponseDTO } from './auth.dto';
+import { AuthResponseDTO } from './dto/auth.dto';
 import { ConfigService } from '@nestjs/config';
 
 
@@ -20,7 +20,7 @@ export class AuthService {
         const foundUser = await this.userService.findByEmail(email);
 
         if(!foundUser || !bcryptCompareSync(password, foundUser.password)){
-            throw new UnauthorizedException('You are not Allowed. Please provide a valid Token ');
+            throw new UnauthorizedException('You are not Allowed. Please provide a valid Information ');
         }
 
         const payload  = {sub: foundUser.id, 

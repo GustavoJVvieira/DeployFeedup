@@ -12,14 +12,25 @@ export class LeaderService {
 
 async getLeaderBoard(username: any){
 
+
+
 const users = await this.usersRepository.query(`SELECT u.*, COUNT(f.id_usersend) AS total_feedbacks
 FROM users AS u LEFT JOIN feedbacks AS f ON u.id = f.id_userreceived WHERE u.id = $1 GROUP BY u.id;`, [username.sub])
-const feedback_send =  await this.feedupRepository.find({where :{id_usersend : username.sub}})
-const feedback_received =  await this.feedupRepository.find({where :{id_userreceived : username.sub}})
+const feedback_send =  await this.feedupRepository.query(`SELECT feedbacks.id,
+feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
+user_received.name AS receiver_name, user_received.username AS receiver_username
+ FROM feedbacks INNER JOIN users AS user_send ON feedbacks.id_usersend = user_send.id
+INNER JOIN users AS user_received ON feedbacks.id_userreceived = user_received.id WHERE user_send.id = $1`, [username.sub])
+const feedback_received =  await this.feedupRepository.query(`SELECT 
+feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
+user_received.name AS receiver_name, user_received.username AS receiver_username
+ FROM feedbacks INNER JOIN users AS user_send ON feedbacks.id_usersend = user_send.id
+INNER JOIN users AS user_received ON feedbacks.id_userreceived = user_received.id WHERE user_received.id = $1`, [username.sub])
 
 return {users, feedback_send, feedback_received}
 
 }
+
 
 
 async deleteFeedup(id: string, user : any){
@@ -45,7 +56,6 @@ return {message : `${user.username} your feedup was deleted`}
 
 async getColaborator(username : string, user : any){
     
-
     const colaborator = await this.usersRepository.findOne({where : {username : username}})
 
     if(user.role != colaborator.role){

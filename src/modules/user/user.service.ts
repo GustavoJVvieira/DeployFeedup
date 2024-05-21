@@ -1,20 +1,18 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {  UserDTO } from './dto/user.dto';
-import { v4 as uuid } from 'uuid';
 import { hashSync as bcryptHashSync} from "bcrypt"
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { UserEntity } from 'src/db/entities/users.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(UserEntity) private readonly usersRepository: Repository<UserEntity> ){}
 
     
     async createUser(newUser: UserDTO){
-        const userAlreadyRegistered = await this.usersRepository.findOneBy({email: newUser.email});
-
-        if(userAlreadyRegistered) throw new ConflictException(`Ih paizao, ${newUser.email} já tem cadastro já`)
-        
+      const validation = await this.usersRepository.query(`select distinct users.username, users.email from users`);
+       
         const dbUser = new UserEntity();
         dbUser.name = newUser.name;
         dbUser.email = newUser.email;
@@ -26,10 +24,16 @@ export class UserService {
 
         dbUser.password = bcryptHashSync(newUser.password, 10);
 
-        const {email, name} = await this.usersRepository.save(dbUser);
+        
+        if(validation.username === dbUser.username){
+          throw new NotFoundException('Username already exists');
+        }
+        if (validation.email = dbUser.email){
+          throw new NotFoundException('Email already exists');
+        }
 
-        return {email, name};
-
+        return this.usersRepository.save(dbUser);
+       
     }
 
     async findByEmail(email: string): Promise<UserDTO | null> {

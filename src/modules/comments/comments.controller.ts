@@ -23,11 +23,9 @@ export class CommentsController {
   @UseGuards(AuthGuard)
 
   createComment(
-    @Body(new ValidationPipe({ transform: true })) comments: CommentsDTO, 
-    @User() user: any, 
-    @Param("id") id: string
+    @Body() message: string, @User() user: any, @Param("id") id: string
   ) {
-    this.commentsService.createComment(comments, user, id);
+    this.commentsService.createComment(message, user, id);
   }
 
   @Get('/:id')
