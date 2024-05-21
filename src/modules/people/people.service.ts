@@ -66,4 +66,23 @@ async getColaborator(username : string){
     return {users, feedback_send, feedback_received}
 }
 
+
+async getMetrics(){
+    
+    const feedback_date = await this.feedupRepository.query(`SELECT DATE(feedbacks.created_at) as data_feedup, 
+    COUNT(*) AS quantidade_feedups FROM feedbacks GROUP BY data_feedup ORDER BY data_feedup ASC;`)
+
+    const most_value = await this.feedupRepository.query(`SELECT value, COUNT(*) AS quantidade
+    FROM feedbacks
+    GROUP BY value
+    ORDER BY value DESC;`)
+
+    const most_moods = await this.feedupRepository.query(`SELECT moods, COUNT(*) AS quantidade
+    FROM user_moods
+    GROUP BY moods
+    ORDER BY moods DESC;`)
+
+    return {feedback_date, most_value, most_moods}
+
+}
 }

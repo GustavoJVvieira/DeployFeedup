@@ -1,8 +1,12 @@
-import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/roles.decorator';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+
+
+
 
 @ApiTags('Profile')
 @Controller('profile')
@@ -17,7 +21,7 @@ export class ProfileController {
   @ApiBearerAuth()
 
   @UseGuards(AuthGuard)
-
+  @UseInterceptors(CacheInterceptor)
   findUser(@User() user: any){
     return this.profileService.findUser(user);
     

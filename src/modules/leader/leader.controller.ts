@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
 import { LeaderService } from './leader.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles, User } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/enum/user-type.enum';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 @UseGuards(AuthGuard)
 @ApiTags('Leader')
@@ -22,7 +23,8 @@ export class LeaderController {
   @ApiBearerAuth()
 
   @UseGuards(AuthGuard)
-
+  
+  @UseInterceptors(CacheInterceptor)
   async getLeaderBoard(@User() user : any) {
     return this.leaderService.getLeaderBoard(user);
   }

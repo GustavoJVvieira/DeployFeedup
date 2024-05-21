@@ -19,9 +19,18 @@ import { PeopleModule } from './modules/people/people.module';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './config/winston.config';
 import { LoggerInterceptor } from './interceptors/logger.interceptors';
+import { ShopModule } from './modules/shop/shop.module';
+import {CacheModule} from "@nestjs/cache-manager";
+
 
 @Module({
+
   imports: [ 
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 100000,
+    }),
+
     //config module config
     ConfigModule.forRoot({
     isGlobal: true,
@@ -30,7 +39,7 @@ import { LoggerInterceptor } from './interceptors/logger.interceptors';
   }),WinstonModule.forRoot(winstonConfig),
 
     UserModule, FeedupsModule, MoodsModule, CommentsModule, AuthModule, DbModule, FeedModule, 
-    ProfileModule, LikesModule, LeaderModule, JwtModule, PeopleModule],
+    ProfileModule, LikesModule, LeaderModule, JwtModule, PeopleModule, ShopModule],
 
   controllers: [AppController],
 

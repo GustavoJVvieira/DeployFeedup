@@ -9,7 +9,7 @@ async function bootstrap() {
 
   //config Winston 
   const logger = WinstonModule.createLogger(winstonConfig);
-  const app = await NestFactory.create(AppModule, { logger });
+  const app = await NestFactory.create(AppModule);
   
   //config Class-Validation
   app.useGlobalPipes(new ValidationPipe());
@@ -35,6 +35,5 @@ async function bootstrap() {
 
   //port listening
   await app.listen(3000);
-  logger.log(`Application is running on: ${await app.getUrl()}`)
 }
 bootstrap();

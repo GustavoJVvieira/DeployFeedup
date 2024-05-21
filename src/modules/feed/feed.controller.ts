@@ -1,9 +1,9 @@
-import { Controller, Delete, Get, NotFoundException, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FeedService } from './feed.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/roles.decorator';
-
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
@@ -27,6 +27,7 @@ export class FeedController {
   }
 
   @Delete('/:id')
+
   @ApiResponse({ status: 204, description: 'O Feedup foi excluido com sucesso'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
   @ApiResponse({ status: 404, description: 'Not Found'})
@@ -35,6 +36,7 @@ export class FeedController {
 
   @UseGuards(AuthGuard)
 
+  @UseInterceptors(CacheInterceptor)
   async deleteFeedup(@Param('id') id: string, @User() user: any) {
     const deleted = await this.feedService.deleteFeedup(id, user);
 

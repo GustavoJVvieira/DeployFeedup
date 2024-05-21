@@ -24,6 +24,7 @@
     "migration:revert": "npm run typeorm migration:revert -- -d ./src/db/typeorm.migrations-config.ts"
   },
   "dependencies": {
+    "@nestjs/cache-manager": "^2.2.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
@@ -33,9 +34,12 @@
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
     "bcrypt": "^5.1.1",
+    "cache-manager": "^5.5.2",
+    "cache-manager-redis-yet": "^5.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
+    "ioredis": "^5.4.1",
     "nest-winston": "^1.9.6",
     "pg": "^8.11.5",
     "reflect-metadata": "^0.2.0",

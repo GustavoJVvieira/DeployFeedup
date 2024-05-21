@@ -1,9 +1,10 @@
-import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
 import { PeopleService } from './people.service';
 import { ApiResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Roles, User } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/enum/user-type.enum';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 @ApiTags('People')
 @Controller('people')
@@ -20,7 +21,8 @@ export class PeopleController {
   @ApiBearerAuth()
 
   @UseGuards(AuthGuard)
-
+  
+  @UseInterceptors(CacheInterceptor)
   async getLeaderBoard(@User() user : any) {
     return this.peopleService.getLeaderBoard(user);
   }
@@ -46,4 +48,12 @@ export class PeopleController {
   async getColaborator(@Param("username") username: string){
     return this.peopleService.getColaborator(username);
   }
+
+  @Get("/metrics")
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  async getMetrics(){
+    return this.peopleService.getMetrics();
+  }
+
 }

@@ -1,10 +1,10 @@
 import { ConfigService } from "@nestjs/config";
 import {config} from "dotenv"
 import { DataSource, DataSourceOptions } from "typeorm";
-import { UserEntity } from "../db/entities/users.entity";
-import { FeedbackEntity } from "../db/entities/feedups.entity";
-import { MoodsEntity } from "../db/entities/moods.entity";
-import { CommentsEntity } from "../db/entities/comments.entity";
+import { UserEntity } from "./entities/users.entity";
+import { FeedbackEntity } from "./entities/feedups.entity";
+import { MoodsEntity } from "./entities/moods.entity";
+import { CommentsEntity } from "./entities/comments.entity";
 
 config();
 

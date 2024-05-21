@@ -25,12 +25,12 @@ export class UserService {
         dbUser.password = bcryptHashSync(newUser.password, 10);
 
         
-        if(validation.username === dbUser.username){
+        /*if(validation.username === dbUser.username){
           throw new NotFoundException('Username already exists');
         }
         if (validation.email = dbUser.email){
           throw new NotFoundException('Email already exists');
-        }
+        }*/
 
         return this.usersRepository.save(dbUser);
        

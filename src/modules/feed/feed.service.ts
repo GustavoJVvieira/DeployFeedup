@@ -3,15 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FeedbackEntity } from 'src/db/entities/feedups.entity';
 import { Repository } from 'typeorm';
 import { UserEntity } from 'src/db/entities/users.entity';
-
+import { Cache } from '@nestjs/cache-manager';
 
 @Injectable()
 export class FeedService {
     constructor(@InjectRepository(FeedbackEntity) private readonly feedupRepository: Repository<FeedbackEntity>,
-    @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,){}
+    @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+    private readonly cacheService : Cache){}
 
-    //Injectable Find All Feedups
+    //Injectable Find All Feedups 
     async findAll() {
+  
         const feedupFound = await this.feedupRepository.query(` SELECT 
         feedbacks.isanonymous, feedbacks.id, feedbacks.value, feedbacks.message, feedbacks.created_at, user_send.name AS sender_name, user_send.username AS sender_username,
         user_received.name AS receiver_name, user_received.username AS receiver_username
@@ -33,9 +35,10 @@ export class FeedService {
             feedupFound[i].sender_username = 'Anônimo';
     }
   }
-       
+      
         return {users, feedupFound}
 
+     
     }   
     
     //Injectable Delete only User Feedup´s 
