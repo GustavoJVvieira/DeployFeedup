@@ -5,7 +5,11 @@ services:
     ports:
       - "5432:5432"
     environment:
+<<<<<<< HEAD
       POSTGRES_DB: feedup
+=======
+      POSTGRES_DB: feedup_teste2
+>>>>>>> a72240516b0f14f390ea73b2319fcab8dc4eba57
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
 

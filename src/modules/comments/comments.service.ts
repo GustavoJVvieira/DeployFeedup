@@ -30,7 +30,11 @@ export class CommentsService {
 
   async findById(id: string) {
     
+<<<<<<< HEAD
     return this.commentsRepository.query(`SELECT comments.id,
+=======
+    return this.commentsRepository.query(`SELECT
+>>>>>>> a72240516b0f14f390ea73b2319fcab8dc4eba57
     users.username, comments.message, comments.created_at FROM
     comments INNER JOIN users ON users.id = comments.id_usercommented
     INNER JOIN  feedbacks ON feedbacks.id = comments.id_feedup
@@ -38,15 +42,24 @@ export class CommentsService {
 
   }
 
+<<<<<<< HEAD
   async deleteComment(id: string, user: any) {
     const comment = await this.commentsRepository.findOne({where:{id}});
     
+=======
+  async deleteComment(id: string, user: UserEntity) {
+    const comment = await this.commentsRepository.findOne({where:{id}});
+>>>>>>> a72240516b0f14f390ea73b2319fcab8dc4eba57
 
     if (!comment) {
       throw new NotFoundException('Comment not found');
     }
 
+<<<<<<< HEAD
     if (comment.id_usercommented !== user.sub) {
+=======
+    if (comment.id_usercommented !== user.id) {
+>>>>>>> a72240516b0f14f390ea73b2319fcab8dc4eba57
       throw new NotFoundException('You are not allowed to delete this comment');
     }
 
