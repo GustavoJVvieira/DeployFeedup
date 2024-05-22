@@ -12,7 +12,7 @@ const configService = new ConfigService();
 
 const dataSourceOptions: DataSourceOptions = {
    type: 'postgres',
-        host : process.env.DB_HOST',
+        host : process.env.DB_HOST,
         username: process.env.DB_USERNAME,
         port:5432,
         password: process.env.DB_PASSWORD,
