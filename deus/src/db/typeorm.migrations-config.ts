@@ -11,7 +11,6 @@ config();
 const configService = new ConfigService();
 
 const dataSourceOptions: DataSourceOptions = {
-    type: 'postgres',
    type: 'postgres',
         host : 'localhost',
         username: "postgres",
