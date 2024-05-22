@@ -12,7 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         port:5432,
         password:"7e33984050398a7b7a4f763de19d9808932966d04b5d90060186e359bd53c9a1" ,
         database:"d1v0jcv0cbpt27" , 
-    entities: [UserEntity, FeedbackEntity, MoodsEntity, CommentsEntity],
+   entities: [__dirname + '/entities/**'],
     migrations: [__dirname + '/migrations/*.ts'],
     synchronize: false,
       ssl: true, 
