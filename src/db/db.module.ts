@@ -14,7 +14,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
                 database: "d1v0jcv0cbpt27",
                 entities: [__dirname + '/entities/**'],
                 migrations: [__dirname + '/migrations/*.ts'],
-                synchronize: false
+                synchronize: false,
+                 ssl: true, 
+                    extra: { "ssl": 
+                        { "rejectUnauthorized": false }
+                        }
 
             }),
 
