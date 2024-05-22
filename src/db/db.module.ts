@@ -7,11 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             useFactory: async (ConfigService: ConfigService) =>({
                 
                 type: 'postgres',
-                host: ConfigService.get<string>('DB_HOST'),
-                port: +ConfigService.get<number>('DB_PORT'),
-                username: ConfigService.get<string>('DB_USERNAME'),
-                password: ConfigService.get<string>('DB_PASSWORD'),
-                database: ConfigService.get<string>('DB_NAME'),
+                host: "ec2-44-194-102-142.compute-1.amazonaws.com",
+                port: 5432,
+                username: "aguuguykuviude",
+                password: "7e33984050398a7b7a4f763de19d9808932966d04b5d90060186e359bd53c9a1",
+                database: "d1v0jcv0cbpt27",
                 entities: [__dirname + '/entities/**'],
                 migrations: [__dirname + '/migrations/*.ts'],
                 synchronize: false
