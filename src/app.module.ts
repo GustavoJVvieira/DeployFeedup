@@ -17,7 +17,7 @@ import { RolesGuard } from './guard/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { PeopleModule } from './modules/people/people.module';
 import { WinstonModule } from 'nest-winston';
-import { winstonConfig } from './config/winston.config';
+//import { winstonConfig } from './config/winston.config';
 import { LoggerInterceptor } from './interceptors/logger.interceptors';
 import { ShopModule } from './modules/shop/shop.module';
 import {CacheModule} from "@nestjs/cache-manager";
@@ -36,7 +36,7 @@ import {CacheModule} from "@nestjs/cache-manager";
     isGlobal: true,
 
     //config winston
-  }),WinstonModule.forRoot(winstonConfig),
+  }),//WinstonModule.forRoot(winstonConfig),
 
     UserModule, FeedupsModule, MoodsModule, CommentsModule, AuthModule, DbModule, FeedModule, 
     ProfileModule, LikesModule, LeaderModule, JwtModule, PeopleModule, ShopModule],
