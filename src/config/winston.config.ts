@@ -1,4 +1,4 @@
-import {
+/*import {
     utilities as nestWinstonModuleUtilities,
     WinstonModuleOptions,
   } from 'nest-winston';
@@ -17,4 +17,4 @@ import {
         
       }),
     ],
-  };
+  };*/

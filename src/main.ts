@@ -3,12 +3,12 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
-import { winstonConfig } from './config/winston.config';
+//import { winstonConfig } from './config/winston.config';
 
 async function bootstrap() {
 
   //config Winston 
-  const logger = WinstonModule.createLogger(winstonConfig);
+  //const logger = WinstonModule.createLogger(winstonConfig);
   const app = await NestFactory.create(AppModule);
   
   //config Class-Validation
